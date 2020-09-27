@@ -1,0 +1,18 @@
+
+```sql
+CREATE USER 'root'@'MYSQL_ROOT_HOST'
+    IDENTIFIED BY 'PASSWORD';
+GRANT ALL 
+    ON *.* 
+    TO 'root'@'MYSQL_ROOT_HOST';
+
+
+
+CREATE USER 'USER-NAME'@'%'
+    IDENTIFIED BY 'PASSWORD';
+CREATE DATABASE newdb;
+GRANT ALL 
+    ON newdb.* 
+    TO 'USER-NAME'@'%';
+```
+

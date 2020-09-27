@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+
+    db:
+        image: "mysql/mysql-server:5.7"
+        container_name: db
+        command: [ "mysqld",
+                    "--character-set-server=utf8mb4",
+                    "--collation-server=utf8mb4_unicode_ci",
+                    "--bind-address=0.0.0.0",
+                    "--innodb_large_prefix=true",
+                    "--innodb_file_format=barracuda",
+                    "--innodb_file_per_table=true" ]
+        # expose:
+        #    - "3306"
+        # ports:
+        #     - "3306:3306"
+        networks:
+           - dbnet
+        volumes:
+           - /opt/db/db:/var/lib/mysql
+           - /opt/db:/db
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "w0rdw0rd"
+            # MYSQL_ROOT_HOST: "10.%"
+            MYSQL_USER: wptest
+            MYSQL_PASSWORD: passw0rd
+            MYSQL_DATABASE: wptest
+
+#    phpmyadmin:
+#        image: phpmyadmin/phpmyadmin
+#        networks:
+#            - dbnet
+#        environment:
+#            PMA_HOST: db
+#            PMA_USER: root
+#            PMA_PASSWORD: w0rdw0rd
+#            PHP_UPLOAD_MAX_FILESIZE: 1G
+#            PHP_MAX_INPUT_VARS: 1G
+#        ports:
+#            - "8001:80"
+
+
+networks:
+    dbnet:
+        external: true
+

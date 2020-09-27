@@ -1,0 +1,15 @@
+{
+    "name": "stacks-db",
+    "config": {
+        "context": "default",
+        "stackname": "db"
+    },
+    "scripts": {
+        "create:db": "mkdir db",
+        "deploy": "docker --context ${npm_package_config_context} stack deploy  --compose-file docker-compose.yml ${npm_package_config_stackname}",
+        "down": "docker --context ${npm_package_config_context} stack down  ${npm_package_config_stackname}",
+        "services": "docker --context ${npm_package_config_context} service ls",
+        "service": "docker --context ${npm_package_config_context} service ps --no-trunc",
+        "create:network": "docker network create dbnet --scope swarm --driver overlay"
+    }
+}

@@ -1,0 +1,42 @@
+version: '3.8'
+
+
+services:
+
+    nginx:
+        image: robogeek/cronginx
+        container_name: cronginx
+        networks:
+            - servernet
+        volumes:
+            - /opt/server/cronginx/etc-letsencrypt:/etc/letsencrypt
+            - /opt/server/cronginx/webroots:/webroots
+            - /opt/server/cronginx/logs:/var/log/nginx
+            - /opt/server/cronginx/nginx-conf-d:/etc/nginx/conf.d
+            - /opt/server/wp-fpm/roots:/var/wp-fpm:rw
+        ports:
+          - '80:80'
+          - '443:443'
+
+    wp-fpm:
+        image: wordpress:php7.3-fpm
+        container_name: wp-fpm
+        networks:
+            - servernet
+            - dbnet
+        restart: always
+        environment:
+            PATH: "/usr/local/sbin:/usr/local/mybin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        volumes:
+            - /opt/server/wp-fpm/logs:/var/log/apache2:rw
+            - /opt/server/wp-fpm/roots:/var/wp-fpm:rw
+            - /opt/server/wp-fpm/mybin:/usr/local/mybin
+
+networks:
+    servernet:
+        external:
+            name: servernet
+    dbnet:
+        external:
+            name: dbnet
+
